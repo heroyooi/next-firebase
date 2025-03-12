@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { signIn } from '@/lib/auth';
 
-export default function SignInForm() {
+export default function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');

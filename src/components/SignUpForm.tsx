@@ -1,29 +1,41 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { signUp } from "@/lib/auth";
+import { useState } from 'react';
+import { signUp } from '@/lib/auth';
 
 export default function SignUpForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
+    setError('');
 
     try {
       await signUp(email, password);
-      alert("회원가입 성공! 로그인하세요.");
+      alert('회원가입 성공! 로그인하세요.');
     } catch (err) {
-      setError("회원가입 실패. 다시 시도해주세요.");
+      setError('회원가입 실패. 다시 시도해주세요.');
     }
   };
 
   return (
     <form onSubmit={handleSignUp}>
-      <input type="email" placeholder="이메일" value={email} onChange={(e) => setEmail(e.target.value)} required />
-      <input type="password" placeholder="비밀번호" value={password} onChange={(e) => setPassword(e.target.value)} required />
+      <input
+        type="email"
+        placeholder="이메일"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        required
+      />
+      <input
+        type="password"
+        placeholder="비밀번호"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        required
+      />
       <button type="submit">회원가입</button>
       {error && <p>{error}</p>}
     </form>

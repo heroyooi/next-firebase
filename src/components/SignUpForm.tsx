@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { signUp } from '@/lib/auth';
+import '@/styles/components/auth.scss';
 
 export default function SignUpForm() {
   const [email, setEmail] = useState('');
@@ -21,23 +22,26 @@ export default function SignUpForm() {
   };
 
   return (
-    <form onSubmit={handleSignUp}>
-      <input
-        type="email"
-        placeholder="이메일"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-      />
-      <input
-        type="password"
-        placeholder="비밀번호"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-      />
-      <button type="submit">회원가입</button>
-      {error && <p>{error}</p>}
-    </form>
+    <>
+      <h2>회원가입</h2>
+      <form onSubmit={handleSignUp} className="auth-form">
+        <input
+          type="email"
+          placeholder="이메일"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <input
+          type="password"
+          placeholder="비밀번호"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        <button type="submit">이메일 회원가입</button>
+        {error && <p className="auth-error">{error}</p>}
+      </form>
+    </>
   );
 }

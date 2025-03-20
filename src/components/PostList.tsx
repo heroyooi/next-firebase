@@ -3,8 +3,10 @@
 import { useEffect, useState } from 'react';
 import { subscribeToPosts, deletePost, updatePost } from '@/lib/firestore';
 import '@/styles/components/posts.scss';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function PostList() {
+  const { user } = useAuth();
   const [posts, setPosts] = useState<any[]>([]);
   const [editingPost, setEditingPost] = useState<any | null>(null);
   const [title, setTitle] = useState('');
@@ -61,8 +63,12 @@ export default function PostList() {
             <h3>{post.title}</h3>
             <p>{post.content}</p>
             <p className="author">작성자: {post.author}</p>
-            <button onClick={() => handleEdit(post)}>수정</button>
-            <button onClick={() => handleDelete(post.id)}>삭제</button>
+            {user && user.email === post.author && (
+              <>
+                <button onClick={() => handleEdit(post)}>수정</button>
+                <button onClick={() => handleDelete(post.id)}>삭제</button>
+              </>
+            )}
           </div>
         ))
       )}

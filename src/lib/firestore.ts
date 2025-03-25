@@ -11,7 +11,17 @@ import {
   QuerySnapshot,
   query,
   orderBy,
+  getDoc,
 } from 'firebase/firestore';
+
+export interface PostData {
+  id: string;
+  title: string;
+  content: string;
+  author: string;
+  createdAt?: number;
+  updatedAt?: number;
+}
 
 // 게시글 추가 (Create)
 export const addPost = async (
@@ -47,6 +57,23 @@ export const getPosts = async () => {
     throw error;
   }
 };
+
+export async function getPostById(id: string): Promise<PostData | null> {
+  const docRef = doc(db, 'posts', id);
+  const docSnap = await getDoc(docRef);
+  if (!docSnap.exists()) return null;
+
+  const data = docSnap.data();
+
+  return {
+    id: docSnap.id,
+    title: data.title,
+    content: data.content,
+    author: data.author,
+    createdAt: data.createdAt?.seconds || null,
+    updatedAt: data.updatedAt?.seconds || null,
+  };
+}
 
 // 게시글 실시간 구독 (Read + Real-time)
 export const subscribeToPosts = (callback: (posts: any[]) => void) => {

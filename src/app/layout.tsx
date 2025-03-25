@@ -13,7 +13,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ko">
+    <html lang='ko'>
       <head>
         {/* GA 기본 스크립트 추가 */}
         <script
@@ -27,7 +27,7 @@ export default function RootLayout({
               function gtag(){ dataLayer.push(arguments); }
               gtag('js', new Date());
               gtag('config', '${process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID}', {
-                page_path: window.location.pathname,
+                send_page_view: false
               });
             `,
           }}

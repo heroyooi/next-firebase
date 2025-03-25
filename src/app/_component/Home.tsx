@@ -3,14 +3,12 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
-import { logAnalyticsEvent } from '@/lib/firebase';
 import '@/styles/components/home.scss';
 
-export default function HomeClient() {
+export default function Home() {
   const [analytics, setAnalytics] = useState<any[]>([]);
 
   useEffect(() => {
-    logAnalyticsEvent('page_view', { page: '/' });
     async function fetchAnalytics() {
       try {
         const res = await fetch('/api/analytics');
@@ -33,12 +31,18 @@ export default function HomeClient() {
     }
   }, [user, loading, router]);
 
-  if (loading) return <p>로딩 중...</p>;
+  if (loading) {
+    return (
+      <main className='home-page'>
+        <p className='loading'>로딩 중...</p>
+      </main>
+    );
+  }
 
   return (
-    <main>
+    <main className='home-page'>
       <h1>Google Analytics 데이터</h1>
-      <table summary="Google Analytics 데이터">
+      <table summary='Google Analytics 데이터'>
         <thead>
           <tr>
             <th>이벤트</th>

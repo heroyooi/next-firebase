@@ -4,16 +4,10 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { deletePost, updatePost } from '@/lib/firestore';
 import { useState } from 'react';
+import { PostData } from '@/types/post';
 
 interface Props {
-  post: {
-    id: string;
-    title: string;
-    content: string;
-    author: string;
-    createdAt?: number;
-    updatedAt?: number;
-  };
+  post: PostData;
 }
 
 export default function PostDetail({ post }: Props) {

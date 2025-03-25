@@ -13,15 +13,7 @@ import {
   orderBy,
   getDoc,
 } from 'firebase/firestore';
-
-export interface PostData {
-  id: string;
-  title: string;
-  content: string;
-  author: string;
-  createdAt?: number;
-  updatedAt?: number;
-}
+import { PostData } from '@/types/post';
 
 // 게시글 추가 (Create)
 export const addPost = async (

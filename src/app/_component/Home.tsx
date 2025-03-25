@@ -3,10 +3,14 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
+import { formatTimestamp } from '@/utils';
+
 import '@/styles/components/home.scss';
 
 export default function Home() {
   const [analytics, setAnalytics] = useState<any[]>([]);
+  const { user, loading } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
     async function fetchAnalytics() {
@@ -21,9 +25,6 @@ export default function Home() {
 
     fetchAnalytics();
   }, []);
-
-  const { user, loading } = useAuth();
-  const router = useRouter();
 
   useEffect(() => {
     if (!loading && !user) {
@@ -41,31 +42,29 @@ export default function Home() {
 
   return (
     <main className='home-page'>
-      <h1>Google Analytics 데이터</h1>
-      <table summary='Google Analytics 데이터'>
+      <h1>📊 페이지 체류 시간</h1>
+      <table>
         <thead>
           <tr>
-            <th>이벤트</th>
-            <th>데이터</th>
+            <th>페이지</th>
+            <th>체류 시간</th>
+            <th>타이틀</th>
+            <th>Description</th>
             <th>시간</th>
           </tr>
         </thead>
         <tbody>
-          {analytics.length > 0 ? (
-            analytics.map((row, index) => (
+          {analytics
+            .filter((a) => a.eventName === 'stay_time')
+            .map((row, index) => (
               <tr key={index}>
-                <td>{row.eventName}</td>
-                <td>{JSON.stringify(row.eventData)}</td>
-                <td>
-                  {new Date(row.timestamp.seconds * 1000).toLocaleString()}
-                </td>
+                <td>{row.eventData.page}</td>
+                <td>{row.eventData.stay_time}초</td>
+                <td>{row.eventData.page_title}</td>
+                <td>{row.eventData.page_description}</td>
+                <td>{formatTimestamp(row.timestamp)}</td>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan={3}>데이터를 불러오는 중...</td>
-            </tr>
-          )}
+            ))}
         </tbody>
       </table>
     </main>

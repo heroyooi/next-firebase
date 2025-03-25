@@ -7,20 +7,52 @@ export default function GoogleAnalytics() {
   const pathname = usePathname();
   const prevPath = useRef<string | null>(null);
   const isInitialMount = useRef(true);
+  const startTimeRef = useRef<number>(Date.now());
+  const hasSentStayTime = useRef(false);
 
   useEffect(() => {
-    // 최초 로딩일 경우 한 번만 실행 (초기 mount)
+    const page_location = window.location.href;
+    const page_title = document.title;
+    const page_description =
+      (document.querySelector('meta[name="description"]') as HTMLMetaElement)
+        ?.content || '';
+
+    const sendStayTime = () => {
+      if (hasSentStayTime.current) return;
+      hasSentStayTime.current = true;
+
+      const stayTime = Math.floor((Date.now() - startTimeRef.current) / 1000);
+
+      navigator.sendBeacon(
+        '/api/analytics',
+        JSON.stringify({
+          eventName: 'stay_time',
+          eventData: {
+            page: prevPath.current,
+            stay_time: stayTime,
+            page_title,
+            page_description,
+          },
+        })
+      );
+    };
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') sendStayTime();
+    });
+    window.addEventListener('beforeunload', sendStayTime);
+
     if (isInitialMount.current) {
       isInitialMount.current = false;
     } else if (pathname === prevPath.current) {
-      return; // 중복 방지
+      return;
     }
 
     prevPath.current = pathname;
+    startTimeRef.current = Date.now();
+    hasSentStayTime.current = false;
 
-    const page_location = window.location.href;
-
-    // 1. GA 전송
+    // GA 전송
     if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
       window.gtag('event', 'page_view', {
         page_path: pathname,
@@ -28,7 +60,7 @@ export default function GoogleAnalytics() {
       });
     }
 
-    // 2. Firestore 저장
+    // Firestore 전송
     fetch('/api/analytics', {
       method: 'POST',
       headers: {
@@ -39,9 +71,15 @@ export default function GoogleAnalytics() {
         eventData: {
           page: pathname,
           page_location,
+          page_title,
+          page_description,
         },
       }),
     });
+
+    return () => {
+      sendStayTime();
+    };
   }, [pathname]);
 
   return null;

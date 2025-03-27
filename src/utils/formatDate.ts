@@ -1,13 +1,15 @@
-export function formatTimestamp(timestamp: { seconds: number }): string {
-  const date = new Date(timestamp.seconds * 1000);
+export function formatTimestamp(input: Date | string | number | null | undefined): string {
+  if (!input) return '날짜 없음';
 
-  const yy = String(date.getFullYear()).slice(-2);
-  const mm = String(date.getMonth() + 1).padStart(2, '0');
-  const dd = String(date.getDate()).padStart(2, '0');
+  const d = input instanceof Date ? input : new Date(input);
+  if (isNaN(d.getTime())) return '유효하지 않음';
 
-  const hh = String(date.getHours()).padStart(2, '0');
-  const min = String(date.getMinutes()).padStart(2, '0');
-  const sec = String(date.getSeconds()).padStart(2, '0');
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  const hours = String(d.getHours()).padStart(2, '0');
+  const minutes = String(d.getMinutes()).padStart(2, '0');
+  const seconds = String(d.getSeconds()).padStart(2, '0');
 
-  return `${yy}.${mm}.${dd} ${hh}:${min}:${sec}`;
+  return `${year}.${month}.${day} ${hours}:${minutes}:${seconds}`;
 }

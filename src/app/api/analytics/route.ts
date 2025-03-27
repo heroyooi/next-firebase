@@ -6,6 +6,7 @@ import {
   getDocs,
   query,
   orderBy,
+  serverTimestamp,
 } from 'firebase/firestore';
 
 export async function GET() {
@@ -38,7 +39,7 @@ export async function POST(req: Request) {
     await addDoc(collection(db, 'analytics'), {
       eventName,
       eventData,
-      timestamp: new Date(),
+      timestamp: serverTimestamp(),
     });
 
     return NextResponse.json({ success: true });

@@ -55,7 +55,7 @@ export default function Home() {
   > = {};
 
   analytics.forEach((row: any) => {
-    const page = row.eventData.page;
+    const page = row.eventData?.page;
     if (!page) return;
 
     if (!pageStats[page]) {
@@ -69,7 +69,21 @@ export default function Home() {
       pageStats[page].stayTimes.push(row.eventData.stay_time || 0);
       pageStats[page].title = row.eventData.page_title || '';
       pageStats[page].description = row.eventData.page_description || '';
-      pageStats[page].lastSeen = formatTimestamp(row.timestamp);
+
+      const currentLastSeen = pageStats[page].lastSeen;
+      const newTimestamp =
+        row.timestamp && typeof row.timestamp.seconds === 'number'
+        ? new Date(row.timestamp.seconds * 1000)
+        : new Date(row.timestamp);
+
+      const newLastSeen = formatTimestamp(newTimestamp);
+
+      if (
+        !currentLastSeen ||
+        new Date(newLastSeen).getTime() > new Date(currentLastSeen).getTime()
+      ) {
+        pageStats[page].lastSeen = newLastSeen;
+      }
     }
 
     if (row.eventName === 'page_view') {

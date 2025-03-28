@@ -1,4 +1,4 @@
-import PostDetail from '@/components/PostDetail';
+import { PostDetail } from '@/components/posts';
 import { getPostById } from '@/lib/firestore';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';

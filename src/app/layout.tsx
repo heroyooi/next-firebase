@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import GoogleAnalytics from '@/components/GoogleAnalytics';
-import Header from '@/components/Header';
+import { GoogleAnalytics } from '@/components/analytics';
+import { Header } from '@/components/layout';
 import '@/styles/globals.scss';
 
 export const metadata: Metadata = {

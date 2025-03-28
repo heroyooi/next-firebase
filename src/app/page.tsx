@@ -1,4 +1,4 @@
-import Home from '@/app/_component/Home';
+import Home from '@/components/home';
 
 export const metadata = {
   title: '홈 | Next.js + Firebase + GA',

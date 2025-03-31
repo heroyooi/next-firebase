@@ -2,6 +2,7 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { addDoc, collection, getFirestore } from 'firebase/firestore';
 import { getAnalytics, logEvent } from 'firebase/analytics';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -42,3 +43,11 @@ export const logAnalyticsEvent = async (eventName: string, eventData: any) => {
     console.error('Firestore에 Analytics 데이터 저장 실패:', error);
   }
 };
+
+export async function uploadImage(blob: Blob): Promise<string> {
+  const storage = getStorage();
+  const imageRef = ref(storage, `images/${Date.now()}-${blob.name}`);
+  const snapshot = await uploadBytes(imageRef, blob);
+  const url = await getDownloadURL(snapshot.ref);
+  return url;
+}

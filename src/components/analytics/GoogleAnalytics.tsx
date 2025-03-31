@@ -11,6 +11,8 @@ export default function GoogleAnalytics() {
   const hasSentStayTime = useRef(false);
 
   useEffect(() => {
+    if (typeof window === 'undefined' || typeof navigator === 'undefined')
+      return;
     const page_location = window.location.href;
     const page_title = document.title;
     const page_description =
@@ -22,19 +24,20 @@ export default function GoogleAnalytics() {
       hasSentStayTime.current = true;
 
       const stayTime = Math.floor((Date.now() - startTimeRef.current) / 1000);
-
-      navigator.sendBeacon(
-        '/api/analytics',
-        JSON.stringify({
-          eventName: 'stay_time',
-          eventData: {
-            page: prevPath.current,
-            stay_time: stayTime,
-            page_title,
-            page_description,
-          },
-        })
-      );
+      if (typeof navigator !== 'undefined') {
+        navigator.sendBeacon(
+          '/api/analytics',
+          JSON.stringify({
+            eventName: 'stay_time',
+            eventData: {
+              page: prevPath.current,
+              stay_time: stayTime,
+              page_title,
+              page_description,
+            },
+          })
+        );
+      }
     };
 
     document.addEventListener('visibilitychange', () => {

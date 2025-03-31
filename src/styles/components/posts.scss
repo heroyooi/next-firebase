@@ -39,7 +39,7 @@
   background: white;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
+  // text-align: center;
 }
 
 .post-form-container input,
@@ -49,4 +49,10 @@
   margin: 10px 0;
   border: 1px solid #ccc;
   border-radius: 5px;
+}
+
+.post-markdown {
+  background-color: #fff;
+  padding: 30px;
+  margin-top: 30px;
 }

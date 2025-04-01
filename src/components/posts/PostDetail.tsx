@@ -3,7 +3,6 @@
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { deletePost } from '@/lib/firestore';
-import { useState } from 'react';
 import { Post } from '@/types/post';
 import dynamic from 'next/dynamic';
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';

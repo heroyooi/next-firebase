@@ -55,7 +55,7 @@ export default function Home() {
     }
   > = {};
 
-  analytics.forEach((row: any) => {
+  analytics.forEach((row: AnalyticsEvent) => {
     const page = row.eventData?.page;
     if (!page) return;
 
@@ -72,10 +72,13 @@ export default function Home() {
       pageStats[page].description = row.eventData.page_description || '';
 
       const currentLastSeen = pageStats[page].lastSeen;
-      const newTimestamp =
-        row.timestamp && typeof row.timestamp.seconds === 'number'
-          ? new Date(row.timestamp.seconds * 1000)
-          : new Date(row.timestamp);
+
+      let newTimestamp: Date;
+      if (typeof row.timestamp === 'object' && 'seconds' in row.timestamp) {
+        newTimestamp = new Date(row.timestamp.seconds * 1000);
+      } else {
+        newTimestamp = new Date(row.timestamp);
+      }
 
       const newLastSeen = formatTimestamp(newTimestamp);
 

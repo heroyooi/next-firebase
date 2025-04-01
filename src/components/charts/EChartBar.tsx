@@ -16,12 +16,6 @@ interface Props {
   data: AnalyticsRow[];
 }
 
-const PAGE_LABELS: Record<string, string> = {
-  '/': '메인 (/)',
-  '/posts': '글목록 (/posts)',
-  '/post/write': '글작성 (/post/write)',
-};
-
 export default function EChartBar({ data }: Props) {
   const chartRef = useRef<HTMLDivElement>(null);
 

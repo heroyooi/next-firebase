@@ -23,7 +23,7 @@ export default function EditPostForm({ post }: EditPostFormProps) {
     e.preventDefault();
     try {
       await updatePost(post.id, title, content);
-      toastr('게시글이 수정되었습니다!');
+      toastr.success('게시글이 수정되었습니다!');
       router.push(`/posts/${post.id}`);
     } catch (err) {
       if (err instanceof Error) {

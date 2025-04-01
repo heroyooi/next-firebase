@@ -1,9 +1,16 @@
 'use client';
 
-import { Editor } from '@toast-ui/react-editor';
+import dynamic from 'next/dynamic';
 import { useRef, useEffect } from 'react';
 import { uploadImage } from '@/lib/firebase';
 import toastr from 'toastr';
+
+const Editor = dynamic(
+  () => import('@toast-ui/react-editor').then((mod) => mod.Editor),
+  {
+    ssr: false,
+  }
+);
 
 type Props = {
   content: string;

@@ -74,10 +74,15 @@ export default function Home() {
       const currentLastSeen = pageStats[page].lastSeen;
 
       let newTimestamp: Date;
-      if (typeof row.timestamp === 'object' && 'seconds' in row.timestamp) {
-        newTimestamp = new Date(row.timestamp.seconds * 1000);
+      if (
+        typeof row.timestamp === 'object' &&
+        row.timestamp !== null &&
+        'seconds' in row.timestamp &&
+        typeof (row.timestamp as any).seconds === 'number'
+      ) {
+        newTimestamp = new Date((row.timestamp as any).seconds * 1000);
       } else {
-        newTimestamp = new Date(row.timestamp);
+        newTimestamp = new Date(row.timestamp as string | number);
       }
 
       const newLastSeen = formatTimestamp(newTimestamp);

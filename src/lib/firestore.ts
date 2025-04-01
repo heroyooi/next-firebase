@@ -13,7 +13,7 @@ import {
   orderBy,
   getDoc,
 } from 'firebase/firestore';
-import { PostData } from '@/types/post';
+import { Post } from '@/types/post';
 
 function extractThumbnailFromMarkdown(content: string): string {
   const match = content.match(/!\[.*?\]\((.*?)\)/);
@@ -59,7 +59,7 @@ export const getPosts = async () => {
   }
 };
 
-export async function getPostById(id: string): Promise<PostData | null> {
+export async function getPostById(id: string): Promise<Post | null> {
   const docRef = doc(db, 'posts', id);
   const docSnap = await getDoc(docRef);
   if (!docSnap.exists()) return null;
@@ -77,7 +77,7 @@ export async function getPostById(id: string): Promise<PostData | null> {
 }
 
 // 게시글 실시간 구독 (Read + Real-time)
-export const subscribeToPosts = (callback: (posts: any[]) => void) => {
+export const subscribeToPosts = (callback: (posts: Post[]) => void) => {
   const postsQuery = query(
     collection(db, 'posts'),
     orderBy('createdAt', 'desc')

@@ -41,12 +41,16 @@ export default function ToastEditor({ content, setContent }: Props) {
           try {
             const imageUrl = await uploadImage(blob);
             callback(imageUrl, 'image');
-          } catch (error: any) {
+          } catch (error) {
             toastr.options = {
               positionClass: 'toast-bottom-center',
               timeOut: 3000,
             };
-            toastr.error(error.message || '이미지 업로드에 실패했습니다.');
+            if (error instanceof Error) {
+              toastr.error(error.message);
+            } else {
+              toastr.error('이미지 업로드에 실패했습니다.');
+            }
           }
         },
       }}

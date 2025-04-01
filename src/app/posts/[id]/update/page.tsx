@@ -4,11 +4,12 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { getPostById } from '@/lib/firestore';
 import EditPostForm from '@/components/posts/EditPostForm';
+import { Post } from '@/types/post';
 
 export default function PostUpdatePage() {
   const { id } = useParams();
   const router = useRouter();
-  const [post, setPost] = useState<any | null>(null);
+  const [post, setPost] = useState<Post | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

@@ -1,8 +1,9 @@
-export interface PostData {
+export interface Post {
   id: string;
   title: string;
   content: string;
   author: string;
+  thumbnailUrl: string;
   createdAt?: number;
   updatedAt?: number;
 }

@@ -1,17 +1,16 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { subscribeToPosts, deletePost, updatePost } from '@/lib/firestore';
+import { subscribeToPosts, deletePost } from '@/lib/firestore';
 import '@/styles/components/posts.scss';
 import { useAuth } from '@/hooks/useAuth';
 import Link from 'next/link';
+import { Post } from '@/types/post';
+import Image from 'next/image';
 
 export default function PostList() {
   const { user } = useAuth();
-  const [posts, setPosts] = useState<any[]>([]);
-  const [editingPost, setEditingPost] = useState<any | null>(null);
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+  const [posts, setPosts] = useState<Post[]>([]);
 
   useEffect(() => {
     const unsubscribe = subscribeToPosts(setPosts);
@@ -40,7 +39,7 @@ export default function PostList() {
               <Link href={`/posts/${post.id}`}>
                 <div className='thumbnail-title'>
                   <div className='thumbnail-area'>
-                    <img
+                    <Image
                       src={post.thumbnailUrl || '/next.svg'}
                       alt='썸네일'
                       className='thumbnail'

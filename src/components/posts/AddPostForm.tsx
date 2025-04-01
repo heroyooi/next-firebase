@@ -6,6 +6,7 @@ import { addPost } from '@/lib/firestore';
 import { useAuth } from '@/hooks/useAuth';
 import ToastEditor from '@/components/posts/ToastEditor';
 import '@/styles/components/posts.scss';
+import { Editor } from '@toast-ui/react-editor';
 
 export default function AddPostForm() {
   const { user } = useAuth();
@@ -13,7 +14,7 @@ export default function AddPostForm() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [error, setError] = useState('');
-  const editorRef = useRef<any>(null);
+  const editorRef = useRef<Editor>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,7 +24,6 @@ export default function AddPostForm() {
     }
 
     const editorInstance = editorRef.current?.getInstance();
-    const markdown = editorInstance?.getMarkdown() || '';
 
     try {
       await addPost(title, content, user.email || '익명');
@@ -34,7 +34,11 @@ export default function AddPostForm() {
       alert('게시글이 추가되었습니다!');
       router.push('/posts');
     } catch (err) {
-      setError('게시글 추가 실패. 다시 시도해주세요.');
+      if (err instanceof Error) {
+        setError(`추가 실패: ${err.message}`);
+      } else {
+        setError('게시글 추가 실패. 다시 시도해주세요.');
+      }
     }
   };
 

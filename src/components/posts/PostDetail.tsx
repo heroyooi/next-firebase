@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { deletePost } from '@/lib/firestore';
 import { useState } from 'react';
-import { PostData } from '@/types/post';
+import { Post } from '@/types/post';
 import dynamic from 'next/dynamic';
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 
@@ -14,16 +14,13 @@ const Viewer = dynamic(
 );
 
 interface Props {
-  post: PostData;
+  post: Post;
 }
 
 export default function PostDetail({ post }: Props) {
   const { user } = useAuth();
   const router = useRouter();
   const isAuthor = user?.email === post.author;
-
-  const [title, setTitle] = useState(post.title);
-  const [content, setContent] = useState(post.content);
 
   const handleDelete = async () => {
     const ok = confirm('정말 삭제하시겠습니까?');

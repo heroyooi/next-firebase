@@ -8,9 +8,10 @@ import { formatTimestamp } from '@/utils';
 import { PAGE_ORDER } from '@/constants/pages';
 
 import '@/styles/components/home.scss';
+import { AnalyticsEvent } from '@/types/analytics';
 
 export default function Home() {
-  const [analytics, setAnalytics] = useState<any[]>([]);
+  const [analytics, setAnalytics] = useState<AnalyticsEvent[]>([]);
   const { user, loading } = useAuth();
   const router = useRouter();
 

@@ -2,12 +2,14 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import toastr from 'toastr';
 import { updatePost } from '@/lib/firestore';
 import ToastEditor from '@/components/posts/ToastEditor';
 import '@/styles/components/posts.scss';
+import { Post } from '@/types/post';
 
 type EditPostFormProps = {
-  post: any; // 가능하면 여기에 실제 타입 지정
+  post: Post;
   onCancel: () => void;
 };
 
@@ -21,10 +23,14 @@ export default function EditPostForm({ post }: EditPostFormProps) {
     e.preventDefault();
     try {
       await updatePost(post.id, title, content);
-      alert('게시글이 수정되었습니다!');
+      toastr('게시글이 수정되었습니다!');
       router.push(`/posts/${post.id}`);
     } catch (err) {
-      setError('수정 실패. 다시 시도해주세요.');
+      if (err instanceof Error) {
+        setError(`수정 실패: ${err.message}`);
+      } else {
+        setError('수정 실패. 다시 시도해주세요.');
+      }
     }
   };
 

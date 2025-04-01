@@ -8,21 +8,18 @@ import toastr from 'toastr';
 type Props = {
   content: string;
   setContent: (value: string) => void;
+  editorRef: React.RefObject<any>;
 };
 
-export default function ToastEditor({ content, setContent }: Props) {
-  const editorRef = useRef<Editor>(null);
-
+export default function ToastEditor({ content, setContent, editorRef }: Props) {
   const handleChange = () => {
     const markdown = editorRef.current?.getInstance().getMarkdown();
     if (markdown) setContent(markdown);
   };
 
   useEffect(() => {
-    if (editorRef.current) {
-      editorRef.current.getInstance().setMarkdown(content || '');
-    }
-  }, [content]);
+    editorRef.current?.getInstance().setMarkdown(content || '');
+  }, [content, editorRef]);
 
   return (
     <Editor

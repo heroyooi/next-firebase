@@ -111,9 +111,11 @@ export const updatePost = async (
 ) => {
   try {
     const postRef = doc(db, 'posts', id);
+    const thumbnailUrl = extractThumbnailFromMarkdown(content);
     await updateDoc(postRef, {
       title,
       content,
+      thumbnailUrl,
       updatedAt: serverTimestamp(),
     });
   } catch (error) {

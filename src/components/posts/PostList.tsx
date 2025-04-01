@@ -41,6 +41,8 @@ export default function PostList() {
                   <div className='thumbnail-area'>
                     <Image
                       src={post.thumbnailUrl || '/next.svg'}
+                      width={218}
+                      height={150}
                       alt='썸네일'
                       className='thumbnail'
                     />

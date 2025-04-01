@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import toastr from 'toastr';
 import { updatePost } from '@/lib/firestore';
@@ -18,6 +18,7 @@ export default function EditPostForm({ post }: EditPostFormProps) {
   const [title, setTitle] = useState(post.title);
   const [content, setContent] = useState(post.content);
   const [error, setError] = useState('');
+  const editorRef = useRef<any>(null);
 
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,7 +46,11 @@ export default function EditPostForm({ post }: EditPostFormProps) {
           onChange={(e) => setTitle(e.target.value)}
           required
         />
-        <ToastEditor content={content} setContent={setContent} />
+        <ToastEditor
+          content={content}
+          setContent={setContent}
+          editorRef={editorRef}
+        />
         <button type='submit'>수정 완료</button>
         <button type='button' onClick={() => router.push(`/posts/${post.id}`)}>
           취소

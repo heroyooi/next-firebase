@@ -6,7 +6,6 @@ import { addPost } from '@/lib/firestore';
 import { useAuth } from '@/hooks/useAuth';
 import ToastEditor from '@/components/posts/ToastEditor';
 import '@/styles/components/posts.scss';
-import { Editor } from '@toast-ui/react-editor';
 
 export default function AddPostForm() {
   const { user } = useAuth();
@@ -14,7 +13,7 @@ export default function AddPostForm() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [error, setError] = useState('');
-  const editorRef = useRef<Editor>(null);
+  const editorRef = useRef<any>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,7 +52,11 @@ export default function AddPostForm() {
           onChange={(e) => setTitle(e.target.value)}
           required
         />
-        <ToastEditor content={content} setContent={setContent} />
+        <ToastEditor
+          content={content}
+          setContent={setContent}
+          editorRef={editorRef}
+        />
         <button type='submit'>게시글 등록</button>
         {error && <p className='error'>{error}</p>}
       </form>

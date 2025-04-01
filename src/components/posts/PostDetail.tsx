@@ -33,7 +33,7 @@ export default function PostDetail({ post }: Props) {
   };
 
   return (
-    <main style={{ padding: '2rem' }}>
+    <div className='post-detail'>
       <h1>{post.title}</h1>
       <div className='post-markdown'>
         <Viewer initialValue={post.content} />
@@ -52,6 +52,6 @@ export default function PostDetail({ post }: Props) {
           </button>
         </div>
       )}
-    </main>
+    </div>
   );
 }

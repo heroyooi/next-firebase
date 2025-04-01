@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { GoogleAnalytics } from '@/components/analytics';
 import { Header } from '@/components/layout';
 import '@/styles/globals.scss';
+import '@toast-ui/editor/dist/toastui-editor.css';
+import 'toastr/build/toastr.min.css';
 
 export const metadata: Metadata = {
   title: 'Next.js + Firebase App',

@@ -13,7 +13,7 @@ import {
   orderBy,
   getDoc,
 } from 'firebase/firestore';
-import { Post } from '@/types/post';
+import { FirestorePost, Post } from '@/types/post';
 
 function extractThumbnailFromMarkdown(content: string): string {
   const match = content.match(/!\[.*?\]\((.*?)\)/);
@@ -85,10 +85,20 @@ export const subscribeToPosts = (callback: (posts: Post[]) => void) => {
   );
 
   return onSnapshot(postsQuery, (snapshot: QuerySnapshot) => {
-    const updatedPosts = snapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
+    const updatedPosts: Post[] = snapshot.docs.map((doc) => {
+      const data = doc.data() as FirestorePost;
+
+      return {
+        id: doc.id,
+        title: data.title,
+        content: data.content,
+        author: data.author,
+        thumbnailUrl: data.thumbnailUrl,
+        createdAt: data.createdAt?.seconds ?? null,
+        updatedAt: data.updatedAt?.seconds ?? null,
+      };
+    });
+
     callback(updatedPosts);
   });
 };

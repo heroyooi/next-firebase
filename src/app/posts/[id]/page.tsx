@@ -3,10 +3,9 @@ import { getPostById } from '@/lib/firestore';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-type Params = { params: { id: string } };
-
-export async function generateMetadata({ params }: Params): Promise<Metadata> {
+export async function generateMetadata({ params }: any): Promise<Metadata> {
   const post = await getPostById(params.id);
+
   return {
     title: post?.title
       ? `글 상세 | ${post.title}`
@@ -15,7 +14,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   };
 }
 
-export default async function PostDetailPage({ params }: Params) {
+export default async function PostDetailPage({ params }: any) {
   const post = await getPostById(params.id);
   if (!post) return notFound();
 

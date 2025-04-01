@@ -71,6 +71,7 @@ export async function getPostById(id: string): Promise<Post | null> {
     title: data.title,
     content: data.content,
     author: data.author,
+    thumbnailUrl: data.thumbnailUrl,
     createdAt: data.createdAt?.seconds || null,
     updatedAt: data.updatedAt?.seconds || null,
   };

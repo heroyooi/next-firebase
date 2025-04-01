@@ -73,8 +73,8 @@ export default function Home() {
       const currentLastSeen = pageStats[page].lastSeen;
       const newTimestamp =
         row.timestamp && typeof row.timestamp.seconds === 'number'
-        ? new Date(row.timestamp.seconds * 1000)
-        : new Date(row.timestamp);
+          ? new Date(row.timestamp.seconds * 1000)
+          : new Date(row.timestamp);
 
       const newLastSeen = formatTimestamp(newTimestamp);
 

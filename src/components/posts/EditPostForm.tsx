@@ -6,7 +6,12 @@ import { updatePost } from '@/lib/firestore';
 import ToastEditor from '@/components/posts/ToastEditor';
 import '@/styles/components/posts.scss';
 
-export default function EditPostForm({ post }: { post: any }) {
+type EditPostFormProps = {
+  post: any; // 가능하면 여기에 실제 타입 지정
+  onCancel: () => void;
+};
+
+export default function EditPostForm({ post }: EditPostFormProps) {
   const router = useRouter();
   const [title, setTitle] = useState(post.title);
   const [content, setContent] = useState(post.content);

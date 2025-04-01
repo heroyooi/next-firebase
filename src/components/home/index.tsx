@@ -105,7 +105,7 @@ export default function Home() {
 
   return (
     <main className='home-page'>
-      <h1>📊 페이지 체류 시간</h1>
+      <h1>📊 페이지 체류 시간 목록</h1>
       <EChartBar data={analytics} />
       <table>
         <thead>

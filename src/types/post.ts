@@ -1,20 +1,19 @@
 import { Timestamp } from 'firebase/firestore';
 
-export interface Post {
-  id: string;
+type BasePost = {
   title: string;
   content: string;
   author: string;
   thumbnailUrl: string;
-  createdAt?: number | null;
-  updatedAt?: number | null;
+};
+
+export interface Post extends BasePost {
+  id: string;
+  createdAt: number | null;
+  updatedAt: number | null;
 }
 
-export interface FirestorePost {
-  title: string;
-  content: string;
-  author: string;
-  thumbnailUrl: string;
+export interface FirestorePost extends BasePost {
   createdAt?: Timestamp;
   updatedAt?: Timestamp;
 }

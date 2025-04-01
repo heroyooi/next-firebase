@@ -9,8 +9,11 @@ export async function generateMetadata({
   params: { id: string };
 }): Promise<Metadata> {
   const post = await getPostById(params.id);
+
   return {
-    title: `글 상세 | ${post?.title}` || '글 상세 | Next.js + Firebase + GA',
+    title: post?.title
+      ? `글 상세 | ${post.title}`
+      : '글 상세 | Next.js + Firebase + GA',
     description: post?.content?.slice(0, 50) || '게시글 상세 페이지입니다.',
   };
 }

@@ -3,14 +3,11 @@ import { getPostById } from '@/lib/firestore';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-interface PageProps {
-  params: { id: string };
-  searchParams?: { [key: string]: string | string[] | undefined };
-}
-
 export async function generateMetadata({
   params,
-}: PageProps): Promise<Metadata> {
+}: {
+  params: { id: string };
+}): Promise<Metadata> {
   const post = await getPostById(params.id);
   return {
     title: `글 상세 | ${post?.title}` || '글 상세 | Next.js + Firebase + GA',
@@ -18,7 +15,11 @@ export async function generateMetadata({
   };
 }
 
-export default async function PostDetailPage({ params }: PageProps) {
+export default async function PostDetailPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   const post = await getPostById(params.id);
   if (!post) return notFound();
 

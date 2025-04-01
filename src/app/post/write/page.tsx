@@ -1,5 +1,3 @@
-'use client';
-
 import { AddPostForm } from '@/components/posts';
 
 export const metadata = {

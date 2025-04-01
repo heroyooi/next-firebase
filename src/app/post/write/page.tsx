@@ -1,11 +1,5 @@
-'use client';
+import ClientOnlyWrite from '@/components/posts/ClientOnlyWrite';
 
-import { AddPostForm } from '@/components/posts';
-
-export default function WritePostPage() {
-  return (
-    <main>
-      <AddPostForm />
-    </main>
-  );
+export default function Page() {
+  return <ClientOnlyWrite />;
 }
